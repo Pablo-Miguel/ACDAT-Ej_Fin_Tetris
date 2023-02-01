@@ -12,16 +12,14 @@ import java.util.ArrayList;
 public class Tetris {
 
     private Integer filas, columnas, puntos;
-    private SurfaceView view;
     private ArrayList<ArrayList<Integer>> tablero;
     private Figura figura;
     private Boolean perdido;
     private Paint paint;
 
-    public Tetris(Integer filas, Integer columnas, SurfaceView view) {
+    public Tetris(Integer filas, Integer columnas) {
         this.filas = filas;
         this.columnas = columnas;
-        this.view = view;
         this.tablero = tablero_modelo();
         this.figura = new Figura(3, 0);
         this.puntos = 0;
@@ -52,14 +50,6 @@ public class Tetris {
 
     public void setPuntos(Integer puntos) {
         this.puntos = puntos;
-    }
-
-    public SurfaceView getView() {
-        return view;
-    }
-
-    public void setView(SurfaceView view) {
-        this.view = view;
     }
 
     public ArrayList<ArrayList<Integer>> getTablero() {
@@ -106,9 +96,19 @@ public class Tetris {
 
     public void onDraw(Canvas canvas){
         for(int i = 0; i < filas + 1; i++)
-            canvas.drawLine(0, DaoTetris.getTam_celda() * i, DaoTetris.getTam_celda() * 10, DaoTetris.getTam_celda() * i, paint);
+            canvas.drawLine(
+                    DaoTetris.getHor_margen(),
+                    (DaoTetris.getTam_celda() * i) + DaoTetris.getVer_margen(),
+                    (DaoTetris.getTam_celda() * 10) + DaoTetris.getHor_margen(),
+                    (DaoTetris.getTam_celda() * i) + DaoTetris.getVer_margen(),
+                    paint);
         for(int j = 0; j < columnas + 1; j++)
-            canvas.drawLine(DaoTetris.getTam_celda() * j, 0, DaoTetris.getTam_celda() * j, DaoTetris.getTam_celda() * 20, paint);
+            canvas.drawLine(
+                    (DaoTetris.getTam_celda() * j) + DaoTetris.getHor_margen(),
+                    DaoTetris.getVer_margen(),
+                    (DaoTetris.getTam_celda() * j) + DaoTetris.getHor_margen(),
+                    (DaoTetris.getTam_celda() * 20) + DaoTetris.getVer_margen(),
+                    paint);
     }
 
     public void nueva_figura() {

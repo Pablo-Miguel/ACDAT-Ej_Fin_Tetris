@@ -10,7 +10,9 @@ public class DaoTetris {
     private static DaoTetris dao;
     private static ArrayList<ArrayList<ArrayList<Integer>>> figuras;
     private static ArrayList<Integer> imagenes;
-    private static Integer tam_celda = 0;
+    private static Integer tam_celda = 95;
+    private static Integer hor_margen = 0;
+    private static Integer ver_margen = 0;
 
     public static DaoTetris getInstance() {
 
@@ -182,5 +184,21 @@ public class DaoTetris {
 
     public static void setTam_celda(Integer tam_celda) {
         DaoTetris.tam_celda = tam_celda;
+    }
+
+    public static Integer getHor_margen() {
+        return hor_margen;
+    }
+
+    public static void setHor_margen(Integer hor_margen) {
+        DaoTetris.hor_margen = hor_margen;
+    }
+
+    public static Integer getVer_margen() {
+        return ver_margen;
+    }
+
+    public static void setVer_margen(Integer ver_margen) {
+        DaoTetris.ver_margen = ver_margen;
     }
 }

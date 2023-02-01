@@ -5,12 +5,17 @@ import android.view.SurfaceView;
 
 public class ThreadDraw extends Thread{
 
+    static final long FPS = 60;
+    boolean running;
     private SurfaceView view;
-    private  boolean running;
 
     public ThreadDraw(SurfaceView view) {
         this.view = view;
         running = false;
+    }
+
+    public boolean isRunning() {
+        return running;
     }
 
     public void setRunning(boolean running) {
@@ -19,10 +24,15 @@ public class ThreadDraw extends Thread{
 
     @Override
     public void run() {
+        long ticksPS = 1000 / FPS;
+        long startTime;
+        long sleepTime;
+
         Canvas canvas;
 
         while (running){
             canvas = null;
+            startTime = System.currentTimeMillis();
             try {
                 canvas = view.getHolder().lockCanvas(null);
                 if(canvas != null) {
@@ -33,6 +43,16 @@ public class ThreadDraw extends Thread{
             } finally {
                 if (canvas != null) view.getHolder().unlockCanvasAndPost(canvas);
             }
+            sleepTime = ticksPS - (System.currentTimeMillis() - startTime);
+
+            try {
+
+                if (sleepTime > 0)
+                    sleep(sleepTime);
+                else
+                    sleep(10);
+
+            } catch (Exception e) {}
         }
     }
 

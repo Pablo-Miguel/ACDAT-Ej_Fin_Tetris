@@ -12,13 +12,17 @@ public class Imagen {
     private Bitmap img;
     private int base, altura;
 
+    public Imagen(int base, int altura) {
+        this.base = base;
+        this.altura = altura;
+    }
+
     public Imagen(float pos_X, float pos_Y, Resources resources, int img_ref, int base, int altura) {
         this.pos_X = pos_X;
         this.pos_Y = pos_Y;
         this.base = base;
         this.altura = altura;
-        Bitmap bmp = BitmapFactory.decodeResource(resources, img_ref);
-        img = bmp.createScaledBitmap(bmp, base, altura, true);
+        setImg_ref(resources, img_ref);
     }
 
     public float getPos_X() {
@@ -43,6 +47,11 @@ public class Imagen {
 
     public void setImg(Bitmap img) {
         this.img = img;
+    }
+
+    public void setImg_ref(Resources resources, Integer img_ref) {
+        Bitmap bmp = BitmapFactory.decodeResource(resources, img_ref);
+        img = bmp.createScaledBitmap(bmp, base, altura, true);
     }
 
     public int getBase() {
