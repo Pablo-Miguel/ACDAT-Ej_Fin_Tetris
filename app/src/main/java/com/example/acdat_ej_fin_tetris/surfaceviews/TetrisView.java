@@ -71,8 +71,9 @@ public class TetrisView extends SurfaceView implements SurfaceHolder.Callback {
         threadDraw.setRunning(true);
         threadDraw.start();
 
-        //threadFigura = new FiguraActivaThread(getResources(), tetris);
-        //threadFigura.start();
+        threadFigura = new FiguraActivaThread(tetris);
+        threadFigura.setRunning(true);
+        threadFigura.start();
 
     }
 
@@ -98,21 +99,10 @@ public class TetrisView extends SurfaceView implements SurfaceHolder.Callback {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        //threadFigura.setCanvas(canvas);
-        //threadFigura.setRunning(true);
-
         if(!tetris.getPerdido()){
             tetris.onDraw(canvas);
 
-            contador += 1;
-            if (contador >= 100)
-                contador = 0;
-
-            if(contador % 30 == 0){
-                if(!tetris.getPerdido()){
-                    tetris.ir_abajo();
-                }
-            }
+            threadFigura.setRunning(true);
 
             for (int x = 0; x < tetris.getFilas(); x++){
                 for (int y = 0; y < tetris.getColumnas(); y++){
@@ -186,6 +176,10 @@ public class TetrisView extends SurfaceView implements SurfaceHolder.Callback {
                     }
                 } else {
                     tetris = new Tetris(20, 10);
+                    threadFigura.setRunning(false);
+                    threadFigura = new FiguraActivaThread(tetris);
+                    threadFigura.setRunning(true);
+                    threadFigura.start();
                     setBackgroundResource(R.drawable.bg_v1);
                 }
                 break;

@@ -16,16 +16,26 @@ public class Tetris {
     private Figura figura;
     private Boolean perdido;
     private Paint paint;
+    private Boolean started;
 
     public Tetris(Integer filas, Integer columnas) {
         this.filas = filas;
         this.columnas = columnas;
         this.tablero = tablero_modelo();
-        this.figura = new Figura(3, 0);
+        nueva_figura();
         this.puntos = 0;
         this.perdido = false;
         this.paint = new Paint();
         paint.setColor(Color.GRAY);
+        started = false;
+    }
+
+    public Boolean getStarted() {
+        return started;
+    }
+
+    public void setStarted(Boolean started) {
+        this.started = started;
     }
 
     public Integer getFilas() {
@@ -95,6 +105,7 @@ public class Tetris {
     }
 
     public void onDraw(Canvas canvas){
+        started = true;
         for(int i = 0; i < filas + 1; i++)
             canvas.drawLine(
                     DaoTetris.getHor_margen(),
