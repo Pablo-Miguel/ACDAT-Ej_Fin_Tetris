@@ -11,13 +11,24 @@ import com.example.acdat_ej_fin_tetris.pojos.Tetris;
 public class FiguraActivaThread extends Thread{
 
     private Tetris tetris;
-    private Integer contador;
-    boolean running;
+    private Integer contador, fps;
+    private Boolean running;
 
-    public FiguraActivaThread(Tetris tetris) {
+    public FiguraActivaThread(Tetris tetris, Integer level) {
         this.tetris = tetris;
         contador = 0;
         running = false;
+        switch (level){
+            case 1:
+                fps = 25;
+                break;
+            case 2:
+                fps = 15;
+                break;
+            case 3:
+                fps = 5;
+                break;
+        }
     }
 
     public boolean isRunning() {
@@ -41,7 +52,7 @@ public class FiguraActivaThread extends Thread{
                 }
             }
             try {
-                sleep(15);
+                sleep(fps);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
