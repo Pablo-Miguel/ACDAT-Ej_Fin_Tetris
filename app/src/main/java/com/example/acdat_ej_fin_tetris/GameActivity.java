@@ -10,9 +10,8 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.acdat_ej_fin_tetris.surfaceviews.TetrisGameView;
-import com.example.acdat_ej_fin_tetris.surfaceviews.TetrisView;
 
-public class MainActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,19 +22,19 @@ public class MainActivity extends AppCompatActivity {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        setContentView(new TetrisView(MainActivity.this, this));
+        Integer level = (Integer) getIntent().getSerializableExtra("level");
+        setContentView(new TetrisGameView(GameActivity.this, this, level));
     }
 
-    public void startGame(Integer level) {
-        Intent intent = new Intent(MainActivity.this, GameActivity.class);
-
+    public void loseActivity(Integer level) {
+        Intent intent = new Intent(GameActivity.this, LoseActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("level", level);
-
         startActivity(intent);
         this.finish();
     }
 
     public void onBackPressed() {
-        System.exit(0);
+        Toast t = Toast.makeText(this, "No se puede volver", Toast.LENGTH_SHORT);
+        t.show();
     }
 }

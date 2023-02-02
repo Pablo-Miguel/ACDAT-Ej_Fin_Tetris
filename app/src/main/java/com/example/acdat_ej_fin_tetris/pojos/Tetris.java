@@ -18,9 +18,9 @@ public class Tetris {
     private Paint paint;
     private Boolean started;
 
-    public Tetris(Integer filas, Integer columnas) {
-        this.filas = filas;
-        this.columnas = columnas;
+    public Tetris() {
+        this.filas = 20;
+        this.columnas = 10;
         this.tablero = tablero_modelo();
         nueva_figura();
         this.puntos = 0;

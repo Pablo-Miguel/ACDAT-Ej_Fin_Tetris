@@ -1,51 +1,57 @@
 package com.example.acdat_ej_fin_tetris.surfaceviews;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
-import com.example.acdat_ej_fin_tetris.MainActivity;
+import com.example.acdat_ej_fin_tetris.LoseActivity;
 import com.example.acdat_ej_fin_tetris.R;
+import com.example.acdat_ej_fin_tetris.daos.DaoTetris;
 import com.example.acdat_ej_fin_tetris.models.ButtonMenu;
+import com.example.acdat_ej_fin_tetris.models.Imagen;
 import com.example.acdat_ej_fin_tetris.models.Menu;
 import com.example.acdat_ej_fin_tetris.models.MenuBackground;
+import com.example.acdat_ej_fin_tetris.models.TextMenu;
+import com.example.acdat_ej_fin_tetris.pojos.Tetris;
+import com.example.acdat_ej_fin_tetris.threads.FiguraActivaThread;
 import com.example.acdat_ej_fin_tetris.threads.ThreadDraw;
 
 import java.util.ArrayList;
 
-public class TetrisView extends SurfaceView implements SurfaceHolder.Callback {
+public class TetrisLoseView extends SurfaceView implements SurfaceHolder.Callback {
 
     private ThreadDraw threadDraw;
-    private MainActivity activity;
-    private ArrayList<Menu> inicio_touch_menu, inicio_static_menu;
+    private ArrayList<Menu> lose_static_menu, lose_touch_menu;
+    private LoseActivity activity;
     private Integer level;
 
-    public TetrisView(Context context, MainActivity activity) {
+    public TetrisLoseView(Context context, LoseActivity activity, Integer level) {
         super(context);
 
         this.activity = activity;
+        this.level = level;
 
-        inicio_touch_menu = new ArrayList<Menu>();
-        inicio_static_menu = new ArrayList<Menu>();
+        lose_static_menu = new ArrayList<Menu>();
+        lose_touch_menu = new ArrayList<Menu>();
 
         getHolder().addCallback(this);
-        setBackgroundResource(R.drawable.bg_3);
+        setBackgroundResource(R.drawable.bg_2);
     }
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
-        int cont_inicio_id = 0;
+        int cont_lose_id  = 0;
 
-        inicio_static_menu.add(new MenuBackground((getWidth() / 2) - 400, 200, getResources(), R.drawable.tetris_logo, 800, 642));
-        inicio_touch_menu.add(new ButtonMenu(cont_inicio_id++,(getWidth() / 2) - 300, (getHeight() / 2) - 200, Color.TRANSPARENT, getResources(), R.drawable.btn_lvl_1, 600, 200));
-        inicio_touch_menu.add(new ButtonMenu(cont_inicio_id++,(getWidth() / 2) - 300, (getHeight() / 2) + 100, Color.TRANSPARENT, getResources(), R.drawable.btn_lvl_2, 600, 200));
-        inicio_touch_menu.add(new ButtonMenu(cont_inicio_id++,(getWidth() / 2) - 300, (getHeight() / 2) + 400, Color.TRANSPARENT, getResources(), R.drawable.btn_lvl_3, 600, 200));
-        inicio_touch_menu.add(new ButtonMenu(cont_inicio_id++,(getWidth() / 2) - 300, (getHeight() / 2) + 700, Color.TRANSPARENT, getResources(), R.drawable.btn_exit, 600, 200));
+        lose_static_menu.add(new MenuBackground((getWidth()/2) - 350, 100, getResources(), R.drawable.game_over_v1, 700, 700));
+        lose_touch_menu.add(new ButtonMenu(cont_lose_id++,(getWidth() / 2) - 300, getHeight() - 700, Color.TRANSPARENT, getResources(), R.drawable.btn_new_game, 600, 200));
+        lose_touch_menu.add(new ButtonMenu(cont_lose_id++,(getWidth() / 2) - 300, getHeight() - 400, Color.TRANSPARENT, getResources(), R.drawable.btn_back, 600, 200));
 
         threadDraw = new ThreadDraw(this);
         threadDraw.setRunning(true);
@@ -74,15 +80,12 @@ public class TetrisView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        for (Menu m : inicio_static_menu){
+        for (Menu m: lose_static_menu) {
             m.onDraw(canvas);
         }
-
-        for (Menu m : inicio_touch_menu){
+        for (Menu m: lose_touch_menu) {
             m.onDraw(canvas);
         }
-
     }
 
     @Override
@@ -93,23 +96,16 @@ public class TetrisView extends SurfaceView implements SurfaceHolder.Callback {
 
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                for (Menu m : inicio_touch_menu) {
-                    if (m.isTouched(x, y)) {
-                        switch (m.getId()) {
+                for (Menu m: lose_touch_menu) {
+                    if(m.isTouched(x, y)){
+                        switch (m.getId()){
                             case 0:
-                                level = 1;
+                                activity.startGame(level);
                                 break;
                             case 1:
-                                level = 2;
-                                break;
-                            case 2:
-                                level = 3;
-                                break;
-                            case 3:
-                                System.exit(0);
+                                activity.startMainActivity();
                                 break;
                         }
-                        activity.startGame(level);
                     }
                 }
                 break;
@@ -117,5 +113,4 @@ public class TetrisView extends SurfaceView implements SurfaceHolder.Callback {
 
         return true;
     }
-
 }
