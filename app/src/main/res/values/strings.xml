@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ACDAT-Ej_Fin_Tetris</string>
+    <string name="nombre">Inserte su nombre...</string>
+    <string name="btnAdd">Add</string>
+    <string name="name">Name</string>
+    <string name="lblScore">Score</string>
 </resources>

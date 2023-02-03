@@ -165,7 +165,7 @@ public class TetrisGameView extends SurfaceView implements SurfaceHolder.Callbac
                 m.onDraw(canvas);
             }
         } else {
-            activity.loseActivity(level);
+            activity.loseActivity(level, tetris.getPuntos());
             mediaPlayer.stop();
             destroy();
         }

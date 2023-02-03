@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.acdat_ej_fin_tetris.pojos.Tetris;
 import com.example.acdat_ej_fin_tetris.surfaceviews.TetrisGameView;
 
 public class GameActivity extends AppCompatActivity {
@@ -26,9 +27,10 @@ public class GameActivity extends AppCompatActivity {
         setContentView(new TetrisGameView(GameActivity.this, this, level));
     }
 
-    public void loseActivity(Integer level) {
+    public void loseActivity(Integer level, Integer puntos) {
         Intent intent = new Intent(GameActivity.this, LoseActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("level", level);
+        intent.putExtra("puntos", puntos);
         startActivity(intent);
         this.finish();
     }
